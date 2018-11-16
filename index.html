@@ -4,20 +4,15 @@
 		<title>PHIL 1: Isaac Gluck</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-      body {
-				color: #808080;
-				font-family:Monospace;
-				font-size:13px;
-				text-align:center;
-				background-color: #000;
-				margin: 0px;
-				overflow: hidden;
-			}
-			canvas { width: 100%; height: 100% }
-		</style>
+    <link rel="stylesheet" href="main.css">
 	</head>
   <body>
+    <div class="container">
+      <canvas id="canvas" width="400" height="300"></canvas>
+      <button id="start" type="button">Start</button>
+      <button id="stop" type="button">Stop</button>
+    </div>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/98/three.min.js"></script>
     <script type="text/javascript" src="./phil.js"></script>
   </body>

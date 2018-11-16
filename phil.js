@@ -1,24 +1,68 @@
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+// Setup Canvas
+var canvas = document.getElementById('canvas'),
+    context = canvas.getContext('2d');
 
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+var overall_started = false;
 
+var start_button = document.getElementById('start'),
+    stop_button = document.getElementById('stop');
 
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+start_button.onclick = function() {overall_started = true;};
+stop_button.onclick = function() {overall_started = false;};
 
-camera.position.z = 5;
+// Main program function
+function runProgram() {
+  canvas.addEventListener('mousedown', canvas_event_handler, false);
+	canvas.addEventListener('mousemove', canvas_event_handler, false);
+	canvas.addEventListener('mouseup',	 canvas_event_handler, false);
 
-
-function animate() {
-	requestAnimationFrame( animate );
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-	renderer.render( scene, camera );
+  // Define the tool to draw the worldlines
+  tool = new worldline_draw_tool();
 }
 
-animate();
+
+function canvas_event_handler(event) {
+	if (event.offsetX || event.offsetX == 0) {
+		event.world_line_x = event.offsetX;
+		event.world_line_y = event.offsetY;
+  }
+
+	var func = tool[event.type];
+	if (func) {
+		func(event);
+	}
+}
+
+function worldline_draw_tool() {
+	var tool = this;
+	this.started = false;
+
+	this.mousedown = function (event) {
+			if (overall_started) {
+        tool.started = true;
+        tool.x0 = event.world_line_x;
+  		  tool.y0 = event.world_line_y;
+      }
+	};
+
+	this.mousemove = function (event) {
+		if (overall_started && tool.started) {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.beginPath();
+      context.moveTo(tool.x0, tool.y0);
+			context.lineTo(event.world_line_x, event.world_line_y);
+			context.stroke();
+      context.closePath();
+		}
+	};
+
+	this.mouseup = function (event) {
+		if (overall_started && tool.started) {
+			// tool.mousemove(event);
+			tool.started = false;
+		}
+	};
+}
+
+
+runProgram()

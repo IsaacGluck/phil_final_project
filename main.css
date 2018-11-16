@@ -1,0 +1,7 @@
+#canvas {
+  margin-top: 100px;
+  margin-left: 100px;
+  border: .25px dashed black;
+  border-left: 4px solid black;
+  border-bottom: 4px solid black;
+}
