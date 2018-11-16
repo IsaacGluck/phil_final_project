@@ -21,6 +21,7 @@ var start_button = document.getElementById('start'),
 // Allow Drawing
 start_button.onclick = function() {
   overall_started = true;
+  draw_reference_line();
 }
 
 // Reset
@@ -73,8 +74,9 @@ function worldline_draw_tool() {
 	this.started = false;
 
 	this.mousedown = function (event) {
-      mic = mouse_in_circle(event.world_line_x, event.world_line_y);
-			if (overall_started && mic) {
+      mic  = check_mouse_in_circle(event.world_line_x, event.world_line_y);
+      cgtr = check_greater_than_ref(event.world_line_x);
+			if (overall_started && mic && cgtr) {
         tool.started = true;
         tool.x0 = (first_line) ? (event.world_line_x) : (all_lines[all_lines.length - 1].x2);
   		  tool.y0 = (first_line) ? (event.world_line_y) : (all_lines[all_lines.length - 1].y2);
@@ -87,6 +89,8 @@ function worldline_draw_tool() {
       draw_lines();
       draw_line_helper(tool.x0, tool.y0, event.world_line_x, event.world_line_y);
 		}
+
+    check_cursor_style(event.world_line_x, event.world_line_y);
 	};
 
 	this.mouseup = function (event) {
@@ -110,22 +114,40 @@ function worldline_draw_tool() {
         cntt = check_no_time_travel(all_lines[all_lines.length - 1].y2, new_line.y2);
       }
 
-      if (cntt) {
+      if (cntt) { // If there isn't time travel
         all_lines.push(new_line);
-      } else {
-        console.log('time travelll')
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        draw_lines();
       }
 
+      // Order is important
       first_line = false;
-      tool.mousemove(event);
-			tool.started = false;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      draw_lines();
+      tool.started = false;
 		}
+
+    check_cursor_style(event.world_line_x, event.world_line_y);
 	};
 }
 
+function draw_reference_line() {
+  context.save();
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  // context.translate(150, 100);
+  context.font = "12px sans-serif";
+  context.rotate(-Math.PI/2);
+  context.fillText("Reference Worldline (400)", -80, 10);
+  context.restore();
+
+  context.beginPath();
+  context.moveTo(20, 10);
+  context.lineTo(20, 410);
+  context.stroke();
+  context.closePath();
+}
+
 function draw_lines() {
+  draw_reference_line();
   if (tool.started) {
     for (var line in all_lines) {
       draw_line_helper(all_lines[line].x1, all_lines[line].y1, all_lines[line].x2, all_lines[line].y2);
@@ -157,7 +179,7 @@ function get_line_slope(x1, y1, x2, y2) {
   return (y2 - y1) / (x2 - x1);
 }
 
-function mouse_in_circle(mouseX, mouseY) {
+function check_mouse_in_circle(mouseX, mouseY) {
   if (all_lines.length == 0) {
     return true;
   }
@@ -187,6 +209,21 @@ function check_no_time_travel(y1, y2) {
     }
   }
   return true;
+}
+
+function check_greater_than_ref(x) {
+  if (x < 20) {
+    return false;
+  }
+  return true;
+}
+
+function check_cursor_style(x, y) {
+  if (overall_started && check_mouse_in_circle(x, y) && check_greater_than_ref(x)) {
+    document.body.style.cursor = 'crosshair';
+  } else {
+    document.body.style.cursor = 'default';
+  }
 }
 
 runProgram()

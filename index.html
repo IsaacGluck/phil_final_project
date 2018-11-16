@@ -4,14 +4,19 @@
 		<title>PHIL 1: Isaac Gluck</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" href="main.css">
 	</head>
   <body>
     <div class="container">
-      <canvas id="canvas" width="500" height="400"></canvas>
-      <button id="start" type="button">Start</button>
-      <button id="stop" type="button">Finish</button>
-      <button id="clear" type="button">Clear</button>
+      <span class="axis-label">Temporal axis (t)</span>
+      <canvas id="canvas" width="500" height="420"></canvas>
+      <span class="axis-label shift-right">Spacial Axis (x)</span>
+      <div class="canvas-controllers">
+        <button id="start" class="pure-button button-secondary" type="button">Start</button>
+        <button id="stop" class="pure-button button-success" type="button">Finish</button>
+        <button id="clear" class="pure-button button-error" type="button">Clear</button>
+      </div>
     </div>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/98/three.min.js"></script>

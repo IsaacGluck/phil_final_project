@@ -1,14 +1,55 @@
-
 html, body {
   margin: 0;
   height: 100%;
-  background-color: #f1f2f6;
+  background-color: #ecf0f1;
 }
 
 #canvas {
+  width: 500px;
+  height: 420px;
   background-color: #ffffff;
-  margin-top: 100px;
-  margin-left: 100px;
   border-left: 4px solid black;
   border-bottom: 4px solid black;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 100px;
+  margin-left: 100px;
+}
+
+.axis-label {
+  font-size: .9em;
+}
+
+.shift-right {
+  margin-left: 406px;
+}
+
+.canvas-controllers {
+  /* margin-top: .25em; */
+}
+
+.canvas-controllers > button {
+  margin-right: .25em;
+}
+
+.button-secondary,
+.button-error,
+.button-success {
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-secondary {
+  background-color: #3498db;
+}
+.button-error {
+  background-color: #e74c3c;
+}
+.button-success {
+  background-color: #2ecc71;
 }
