@@ -4,6 +4,9 @@ var canvas = document.getElementById('canvas'),
 
 // Constants
 const CLICK_RADIUS = 10;
+const SPEED_OF_LIGHT = 299792458; // m/s
+const DEFAULT_PERCENT_SPEED_OF_LIGHT = 50;
+const DEFAULT_WORLDLINE_LENGTH = 0;
 
 // Run time vars
 var overall_started = false,
@@ -11,6 +14,8 @@ var overall_started = false,
     drawing_up = true,
     first_line = true,
     error = '',
+    percent_speed_of_light = DEFAULT_PERCENT_SPEED_OF_LIGHT,
+    worldline_length = DEFAULT_WORLDLINE_LENGTH,
     all_lines = [];
 
 // Onscreen Buttons
@@ -26,13 +31,18 @@ start_button.onclick = function() {
 
 // Reset
 stop_button.onclick = function() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  draw_reference_line();
+  for (var line in all_lines) {
+    draw_line_helper(all_lines[line].x1, all_lines[line].y1, all_lines[line].x2, all_lines[line].y2);
+  }
   reset();
 }
 
 // Clear
 clear_button.onclick = function() {
-  context.clearRect(0, 0, canvas.width, canvas.height);
   reset();
+  context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function reset() {
@@ -75,7 +85,7 @@ function worldline_draw_tool() {
 
 	this.mousedown = function (event) {
       mic  = check_mouse_in_circle(event.world_line_x, event.world_line_y);
-      cgtr = check_greater_than_ref(event.world_line_x);
+      cgtr = check_greater_than_ref(event.world_line_x, event.world_line_y);
 			if (overall_started && mic && cgtr) {
         tool.started = true;
         tool.x0 = (first_line) ? (event.world_line_x) : (all_lines[all_lines.length - 1].x2);
@@ -101,25 +111,27 @@ function worldline_draw_tool() {
         x2: event.world_line_x,
         y2: event.world_line_y,
       };
-      new_line.length = get_line_length(new_line.x2, new_line.x1, new_line.y2, new_line.y1);
-      new_line.slope = get_line_slope(new_line.x2, new_line.x1, new_line.y2, new_line.y1);
-      all_lines_length += new_line.length;
+      new_line.length = get_line_length(new_line.x1, new_line.y1, new_line.x2, new_line.y2);
+      new_line.slope = get_line_slope(new_line.x1, new_line.y1, new_line.x2, new_line.y2);
 
       if (first_line) {
         drawing_up = (new_line.y2 > new_line.y1) ? false : true; // counter intuitive bc of canvas weirdness
       }
 
+      cgtr = check_greater_than_ref(new_line.x2, new_line.y2);
       cntt = true;
       if (!first_line) {
-        cntt = check_no_time_travel(all_lines[all_lines.length - 1].y2, new_line.y2);
+        cntt = check_no_time_travel(all_lines[all_lines.length - 1].y2, new_line.y2); // If there isn't time travel
       }
 
-      if (cntt) { // If there isn't time travel
+      if (cntt && cgtr) {
         all_lines.push(new_line);
+        first_line = false;
+        all_lines_length += new_line.length;
+        set_worldline_length_text(all_lines_length);
       }
 
       // Order is important
-      first_line = false;
       context.clearRect(0, 0, canvas.width, canvas.height);
       draw_lines();
       tool.started = false;
@@ -133,7 +145,6 @@ function draw_reference_line() {
   context.save();
   context.textAlign = "center";
   context.textBaseline = "middle";
-  // context.translate(150, 100);
   context.font = "12px sans-serif";
   context.rotate(-Math.PI/2);
   context.fillText("Reference Worldline (400)", -80, 10);
@@ -143,7 +154,7 @@ function draw_reference_line() {
   context.moveTo(20, 10);
   context.lineTo(20, 410);
   context.stroke();
-  context.closePath();
+  // context.closePath();
 }
 
 function draw_lines() {
@@ -211,19 +222,45 @@ function check_no_time_travel(y1, y2) {
   return true;
 }
 
-function check_greater_than_ref(x) {
-  if (x < 20) {
+function check_greater_than_ref(x, y) {
+  if (x < 20 || y < 10 || y > 410) {
     return false;
   }
   return true;
 }
 
 function check_cursor_style(x, y) {
-  if (overall_started && check_mouse_in_circle(x, y) && check_greater_than_ref(x)) {
+  if (overall_started && check_mouse_in_circle(x, y) && check_greater_than_ref(x, y)) {
     document.body.style.cursor = 'crosshair';
   } else {
     document.body.style.cursor = 'default';
   }
 }
 
-runProgram()
+function on_speed_submit(event) {
+  console.log('name', event.target.elements[0].name);
+  console.log('value', event.target.elements[0].value);
+  set_speed_text(event.target.elements[0].value);
+}
+
+function set_speed_text(percent) {
+  percent_speed_of_light = percent;
+  document.getElementById('percent-speed-of-light').innerHTML = percent_speed_of_light + '% the Speed of Light';
+  document.getElementById('real-speed-of-light').innerHTML = (SPEED_OF_LIGHT / (percent_speed_of_light / 100)) + ' m/s';
+}
+
+function set_worldline_length_text(l) {
+  document.getElementById('worldline-length').innerHTML = l;
+}
+
+runProgram();
+
+
+
+// Cosmetics
+var total_width = document.getElementById('speed-form').offsetWidth
+var button_width = document.getElementById('speed-submit').offsetWidth
+document.getElementById('speed-input').style.width = '' + (total_width - button_width) + 'px'
+
+set_speed_text(percent_speed_of_light);
+set_worldline_length_text(worldline_length);

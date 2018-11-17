@@ -4,22 +4,58 @@
 		<title>PHIL 1: Isaac Gluck</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Roboto+Mono" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css">
     <link rel="stylesheet" href="main.css">
 	</head>
   <body>
-    <div class="container">
-      <span class="axis-label">Temporal axis (t)</span>
-      <canvas id="canvas" width="500" height="420"></canvas>
-      <span class="axis-label shift-right">Spacial Axis (x)</span>
-      <div class="canvas-controllers">
-        <button id="start" class="pure-button button-secondary" type="button">Start</button>
-        <button id="stop" class="pure-button button-success" type="button">Finish</button>
-        <button id="clear" class="pure-button button-error" type="button">Clear</button>
+    <div class="page-header font-playfair">
+      Philosophy of Time and Time Travel
+    </div>
+    <div class="page-sub-header">
+      Use the Minkowski Spacetime Interval to calculate spacio-temporal distance.
+    </div>
+    <div class="outer-container">
+
+      <div class="info-controls-container">
+        <span class="header">Model Input</span>
+        <span class="sub-header">Spacetime Interval</span>
+        <span>$$I(p,q) = -\Delta t^2(p,q) + \Delta x^2(p,q)$$</span>
+        <span>$$\Delta t^2 = {\sqrt{-I(p,q)}}$$</span>
+
+        <span class="sub-header">Length of worldline</span>
+        <span id="worldline-length" class="text"></span>
+
+        <span class="sub-header">Speed along worldline</span>
+        <form id="speed-form" class="pure-form" onsubmit="event.preventDefault(); on_speed_submit(event);">
+          <input id="speed-input" type="number" min="1" max="100" class="InputAddOn-field" type="text" placeholder="% speed of light">
+          <button id="speed-submit" class="pure-button button-secondary">Set</button>
+        </form>
+        <div id="percent-speed-of-light" class="text"></div>
+        <span id="real-speed-of-light" class="text"></span>
+      </div>
+      <div class="canvas-container">
+        <span class="axis-label">Temporal axis (t)</span>
+        <canvas id="canvas" width="500" height="420"></canvas>
+        <span class="axis-label shift-right">Spacial Axis (x)</span>
+        <div class="canvas-controllers">
+          <button id="start" class="pure-button button-secondary" type="button">Start</button>
+          <button id="stop" class="pure-button button-success" type="button">Finish</button>
+          <button id="clear" class="pure-button button-error" type="button">Clear</button>
+        </div>
+      </div>
+      <div class="info-container">
+        <span class="header">Model Output</span>
+        <span class="sub-header">Speed along worldline</span>
+        <span id="speed-percent" class="text">50% the Speed of Light</span>
+        <span id="speed-exact" class="text">149896229 m/s</span>
       </div>
     </div>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/98/three.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="./phil.js"></script>
   </body>
 </html>

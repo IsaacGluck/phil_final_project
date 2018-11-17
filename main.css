@@ -2,6 +2,25 @@ html, body {
   margin: 0;
   height: 100%;
   background-color: #ecf0f1;
+  color: #2c3e50;
+  font-weight: 200;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.page-header {
+  text-align: center;
+  font-size: 3em;
+  font-weight: 700;
+  margin-top: 1em;
+}
+
+.page-sub-header {
+  text-align: center;
+  font-size: 2em;
+  margin-top: .5em;
 }
 
 #canvas {
@@ -10,15 +29,56 @@ html, body {
   background-color: #ffffff;
   border-left: 4px solid black;
   border-bottom: 4px solid black;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 }
 
+.outer-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 100px;
+}
 
-.container {
+.canvas-container {
   display: flex;
   flex-direction: column;
+}
 
-  margin-top: 100px;
-  margin-left: 100px;
+.info-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: .9em;
+}
+
+.MJXc-display {
+  text-align: left !important;
+  margin-top: .2em !important;
+  margin-bottom: .2em !important;
+}
+
+.info-controls-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: .9em;
+}
+
+input {
+  /* width: auto; */
+}
+
+.header {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.sub-header {
+  font-size: 1.3em;
+  margin-top: .6em;
+}
+
+.text, #speed-form {
+  margin-top: .2em;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .axis-label {
