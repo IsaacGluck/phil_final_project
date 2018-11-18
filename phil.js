@@ -68,7 +68,7 @@ function runProgram() {
   tool = new worldline_draw_tool();
 }
 
-// get general canvas events
+// Get general canvas events
 function canvas_event_handler(event) {
 	if (event.offsetX || event.offsetX == 0) {
 		event.world_line_x = event.offsetX;
@@ -157,7 +157,6 @@ function worldline_draw_tool() {
       if (cntt && cgtr && cilc) {
         all_lines.push(new_line);
         first_line = false;
-        // set_worldline_length_text(all_lines_length);
       }
 
       // Order is important
@@ -183,7 +182,6 @@ function draw_reference_line() {
   context.moveTo(20, 10);
   context.lineTo(20, 410);
   context.stroke();
-  // context.closePath();
 }
 
 function draw_lines(override) {
@@ -328,13 +326,12 @@ function calculate_output() {
   total_time_passed_for_reference = 0;
   for (var l in all_lines) {
     line = all_lines[l];
-    console.log(line);
     total_time_passed_according_to_reference += line.time_change_according_to_reference;
     total_time_passed_for_reference += line.time_change;
   }
 
-  ref_text = DEFAULT_REFERENCE_TIME_PASSED_TEXT + Math.round(total_time_passed_according_to_reference) + ' years';
-  wl_text = DEFAULT_WORLDLINE_TIME_PASSED_TEXT + Math.round(total_time_passed_for_reference) + ' years';
+  ref_text = DEFAULT_REFERENCE_TIME_PASSED_TEXT + Math.round(total_time_passed_for_reference) + ' years';
+  wl_text = DEFAULT_WORLDLINE_TIME_PASSED_TEXT + Math.round(total_time_passed_according_to_reference) + ' years';
   set_reference_total_time_passed_text(ref_text, wl_text);
 }
 
@@ -354,6 +351,7 @@ function check_for_picked_line(x, y) {
 }
 
 runProgram();
+
 
 
 
@@ -379,17 +377,3 @@ function remove_underlines() {
   document.getElementById('to-green').classList.remove('underline-green');
   document.getElementById('to-yellow').classList.remove('underline-yellow');
 }
-
-
-
-// function set_worldline_length_text(l) {
-//   document.getElementById('worldline-length').innerHTML = l;
-// }
-
-// Cosmetics
-// var total_width = document.getElementById('speed-form').offsetWidth
-// var button_width = document.getElementById('speed-submit').offsetWidth
-// document.getElementById('speed-input').style.width = '' + (total_width - button_width) + 'px'
-
-// set_speed_text(percent_speed_of_light);
-// set_worldline_length_text(worldline_length);
