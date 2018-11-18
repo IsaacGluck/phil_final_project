@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   height: 100%;
-  background-color: #ecf0f1;
+  /* background-color: #ecf0f1; */
   color: #2c3e50;
   font-weight: 200;
 }
@@ -44,11 +44,13 @@ html, body {
   flex-direction: column;
 }
 
-.info-container {
+ /* {
   display: flex;
   flex-direction: column;
-  padding-top: .9em;
-}
+  padding: 1em;
+  width: 310px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+} */
 
 .MJXc-display {
   text-align: left !important;
@@ -56,10 +58,12 @@ html, body {
   margin-bottom: .2em !important;
 }
 
-.info-controls-container {
+.info-container, .info-controls-container {
   display: flex;
   flex-direction: column;
-  padding-top: .9em;
+  padding: 1em;
+  width: 400px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 }
 
 input {
@@ -74,6 +78,16 @@ input {
 .sub-header {
   font-size: 1.3em;
   margin-top: .6em;
+}
+
+.underline-green {
+  text-decoration: underline;
+  text-decoration-color: #2ecc71;
+}
+
+.underline-yellow {
+  text-decoration: underline;
+  text-decoration-color: #f1c40f;
 }
 
 .text, #speed-form {

@@ -20,26 +20,41 @@
     <div class="outer-container">
 
       <div class="info-controls-container">
-        <span class="header">Model Input</span>
+        <span class="header">Model Instructions</span>
         <span class="sub-header">Spacetime Interval</span>
-        <span>$$I(p,q) = -\Delta t^2(p,q) + \Delta x^2(p,q)$$</span>
-        <span>$$\Delta t^2 = {\sqrt{-I(p,q)}}$$</span>
+        <span>$$I(p,q) = -\Delta t^2_A(p,q) + \Delta x^2_A(p,q)$$</span>
+        <span>$$\Delta t_A = {\sqrt{-I(p,q)}} \text{ if } \Delta x^2_A = 0$$</span>
+        <span class="sub-header">Instructions</span>
+        <ol class="text">
+          <li>Press the <strong>Start button to begin</strong> the simulation.</li>
+          <li>Yellow lines are the <strong>light cone</strong> at a point.</li>
+          <li>Using the light cone and circle, <strong>draw world lines</strong>.</li>
+          <ul class="text">
+            <li>This model makes assumptions regarding the arrow of time.</li>
+            <li>If a line does not stick, it is not possible.</li>
+            <li>Reasons include being <strong>outside the light cone</strong> or representing <strong>non-Einsteinian time travel</strong>.</li>
+          </ul>
+          <li>Press the <strong>Finish button</strong> to complete your path.</li>
+          <li>Check out the righthand panel to see the stats regarding the time traveled over the worldline.</li>
+          <li><strong>Click on individual worldline segments</strong> to see stats regarding the time traveled on that segment.</li>
+          <li>Click the <strong>Clear button</strong> to start over.</li>
+        </ol>
 
-        <span class="sub-header">Length of worldline</span>
-        <span id="worldline-length" class="text"></span>
+        <!-- <span class="sub-header">Length of worldline</span> -->
+        <!-- <span id="worldline-length" class="text"></span> -->
 
-        <span class="sub-header">Speed along worldline</span>
+        <!-- <span class="sub-header">Speed along worldline</span>
         <form id="speed-form" class="pure-form" onsubmit="event.preventDefault(); on_speed_submit(event);">
           <input id="speed-input" type="number" min="1" max="100" class="InputAddOn-field" type="text" placeholder="% speed of light">
           <button id="speed-submit" class="pure-button button-secondary">Set</button>
         </form>
         <div id="percent-speed-of-light" class="text"></div>
-        <span id="real-speed-of-light" class="text"></span>
+        <span id="real-speed-of-light" class="text"></span> -->
       </div>
       <div class="canvas-container">
-        <span class="axis-label">Temporal axis (t)</span>
+        <span class="axis-label">Temporal axis (seconds)</span>
         <canvas id="canvas" width="500" height="420"></canvas>
-        <span class="axis-label shift-right">Spacial Axis (x)</span>
+        <span class="axis-label shift-right">Spacial Axis (meters)</span>
         <div class="canvas-controllers">
           <button id="start" class="pure-button button-secondary" type="button">Start</button>
           <button id="stop" class="pure-button button-success" type="button">Finish</button>
@@ -48,9 +63,12 @@
       </div>
       <div class="info-container">
         <span class="header">Model Output</span>
-        <span class="sub-header">Speed along worldline</span>
-        <span id="speed-percent" class="text">50% the Speed of Light</span>
-        <span id="speed-exact" class="text">149896229 m/s</span>
+        <span id="to-green" class="sub-header">Total Wordline</span>
+        <span id="total-time-reference" class="text">Reference Time Passed: </span>
+        <span id="total-time-worldline" class="text">Wordline Time Passed: </span>
+        <span id="to-yellow" class="sub-header">Selected Line</span>
+        <span id="selected-time-reference" class="text">Reference Time Passed: </span>
+        <span id="selected-time-worldline" class="text">Wordline Time Passed: </span>
       </div>
     </div>
 
